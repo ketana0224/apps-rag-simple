@@ -1,0 +1,6 @@
+fastapi==0.118.0
+uvicorn==0.37.0
+gunicorn==23.0.0
+openai==2.24.0
+python-dotenv==1.0.1
+azure-identity==1.19.0
