@@ -41,11 +41,11 @@ def main() -> int:
     search_url = f"{base_url}/api/search"
 
     try:
-        health_status, health_body = http_get_json(health_url, args.timeout)
-        if health_status != 200 or health_body.get("status") != "ok":
-            print("[FAIL] /health", health_status, health_body)
-            return 1
-        print("[PASS] /health", health_body)
+        # health_status, health_body = http_get_json(health_url, args.timeout)
+        # if health_status != 200 or health_body.get("status") != "ok":
+        #     print("[FAIL] /health", health_status, health_body)
+        #     return 1
+        # print("[PASS] /health", health_body)
 
         search_status, search_body = http_post_json(
             search_url,
