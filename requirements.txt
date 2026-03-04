@@ -4,3 +4,5 @@ gunicorn==23.0.0
 openai==2.24.0
 python-dotenv==1.0.1
 azure-identity==1.19.0
+azure-monitor-opentelemetry==1.6.4
+azure-search-documents==11.5.2

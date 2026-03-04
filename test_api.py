@@ -32,8 +32,8 @@ def main() -> int:
         "--base-url",
         default="https://apps-ketana-ext-rag-simple.azurewebsites.net",
     )
-    parser.add_argument("--query", default="RAGとは何か")
-    parser.add_argument("--timeout", type=float, default=20.0)
+    parser.add_argument("--query", default="高松コンストラクショングループの2025年3月期の受注高の計画は前期比何倍か、小数第三位を四捨五入し答えてください。")
+    parser.add_argument("--timeout", type=float, default=90.0)
     args = parser.parse_args()
 
     base_url = args.base_url.rstrip("/")
@@ -59,7 +59,12 @@ def main() -> int:
         if not required_keys.issubset(search_body.keys()):
             print("[FAIL] /api/search missing keys", search_body)
             return 1
-        if search_body.get("source") not in {"placeholder-rag", "rag+aoai"}:
+        if search_body.get("source") not in {
+            "placeholder-rag",
+            "azure-search-semantic",
+            "azure-search-semantic-hybrid",
+            "rag+aoai",
+        }:
             print("[FAIL] /api/search source", search_body.get("source"))
             return 1
 

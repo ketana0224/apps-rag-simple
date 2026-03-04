@@ -42,6 +42,12 @@ LOG_LEVEL=INFO
 AZURE_OPENAI_ENDPOINT=https://<your-resource>.openai.azure.com/openai/v1/
 AZURE_OPENAI_DEPLOYMENT_NAME=<your-deployment-name>
 AOAI_MAX_TOKENS=400
+AZURE_OPENAI_EMBEDDING_MODEL=text-embedding-3-large
+AZURE_SEARCH_ENDPOINT=https://<your-search-service>.search.windows.net
+AZURE_SEARCH_INDEX_NAME=<your-index-name>
+AZURE_SEARCH_API_KEY=<your-search-api-key>
+AZURE_SEARCH_VECTOR_FIELD=contentVector
+AZURE_SEARCH_SEMANTIC_CONFIG=<your-semantic-config-name>
 ```
 
 ## API仕様（MVP）
@@ -65,6 +71,8 @@ AOAI_MAX_TOKENS=400
 - ローカル実行時は `az login` または Visual Studio Code の Azure サインイン状態を利用します。
 
 - 未設定時はプレースホルダ回答を返します（`source: placeholder-rag`）。
+- Azure Search の semantic 検索時は `source: azure-search-semantic` になります。
+- Azure Search の semantic hybrid 検索時は `source: azure-search-semantic-hybrid` になります。
 - AOAI呼び出し成功時は `source: rag+aoai` になります。
 
 ## テスト
@@ -108,7 +116,7 @@ az webapp config set -g $rg -n $app --startup-file 'gunicorn -k uvicorn.workers.
 
 ### 4) App Settings 設定
 ```powershell
-az webapp config appsettings set -g $rg -n $app --settings LOG_LEVEL=INFO AZURE_OPENAI_ENDPOINT='https://<your-resource>.openai.azure.com/openai/v1/' AZURE_OPENAI_DEPLOYMENT_NAME='<your-deployment-name>' AOAI_MAX_TOKENS=400
+az webapp config appsettings set -g $rg -n $app --settings LOG_LEVEL=INFO AZURE_OPENAI_ENDPOINT='https://<your-resource>.openai.azure.com/openai/v1/' AZURE_OPENAI_DEPLOYMENT_NAME='<your-deployment-name>' AOAI_MAX_TOKENS=400 AZURE_OPENAI_EMBEDDING_MODEL='text-embedding-3-large' AZURE_SEARCH_ENDPOINT='https://<your-search-service>.search.windows.net' AZURE_SEARCH_INDEX_NAME='<your-index-name>' AZURE_SEARCH_API_KEY='<your-search-api-key>' AZURE_SEARCH_VECTOR_FIELD='contentVector' AZURE_SEARCH_SEMANTIC_CONFIG='<your-semantic-config-name>'
 ```
 
 ### 5) アプリ本体のみをZIP化してデプロイ
