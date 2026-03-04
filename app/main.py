@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 from app.aoai_client import generate_answer_with_aoai
 from app.rag_placeholder import search as rag_placeholder_search
+# from app.telemetry import setup_telemetry
 
 load_dotenv()
 
@@ -14,6 +15,7 @@ logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"))
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="apps-rag-simple", version="0.1.0")
+# setup_telemetry(app)
 
 
 class SearchRequest(BaseModel):

@@ -1,10 +1,11 @@
 import logging
 import os
+from fastapi import FastAPI
 
 _initialized = False
 
 
-def setup_telemetry() -> None:
+def setup_telemetry(app: FastAPI) -> None:
     global _initialized
 
     if _initialized:
@@ -15,9 +16,23 @@ def setup_telemetry() -> None:
         return
 
     try:
-        from azure.monitor.opentelemetry import configure_azure_monitor
+        from azure.monitor.opentelemetry.exporter import AzureMonitorTraceExporter
+        from opentelemetry import trace
+        from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+        from opentelemetry.sdk.resources import Resource
+        from opentelemetry.sdk.trace import TracerProvider
+        from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
-        configure_azure_monitor(connection_string=connection_string)
+        resource = Resource.create({"service.name": "apps-rag-simple"})
+        tracer_provider = TracerProvider(resource=resource)
+        exporter = AzureMonitorTraceExporter(connection_string=connection_string)
+        tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+        trace.set_tracer_provider(tracer_provider)
+        FastAPIInstrumentor.instrument_app(
+            app,
+            tracer_provider=tracer_provider,
+            exclude_spans=["receive", "send"],
+        )
         _initialized = True
     except Exception:
         logging.getLogger(__name__).exception("telemetry initialization failed")
