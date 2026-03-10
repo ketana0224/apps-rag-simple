@@ -2,6 +2,7 @@ import logging
 import os
 
 from fastapi import FastAPI, HTTPException
+from fastapi.openapi.utils import get_openapi
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 
@@ -13,7 +14,25 @@ load_dotenv()
 logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"))
 logger = logging.getLogger(__name__)
 
-app = FastAPI(title="apps-rag-simple", version="0.1.0")
+app = FastAPI(title="apps-rag-simple", version="0.1.0", openapi_version="3.0.3")
+
+
+def custom_openapi():
+    if app.openapi_schema:
+        return app.openapi_schema
+
+    schema = get_openapi(
+        title=app.title,
+        version=app.version,
+        routes=app.routes,
+        description=app.description,
+    )
+    schema["openapi"] = "3.0.3"
+    app.openapi_schema = schema
+    return app.openapi_schema
+
+
+app.openapi = custom_openapi
 
 
 class SearchRequest(BaseModel):

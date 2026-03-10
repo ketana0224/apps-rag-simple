@@ -1,0 +1,18 @@
+{
+  "properties": {
+    "displayName": "simpe-rag",
+    "mcpTools": [
+      {
+        "name": "search",
+        "description": "Search",
+        "operationId": "/subscriptions/571e49d7-d4d6-4cb5-884f-2e14bfaa662c/resourceGroups/rg-ketana-ext-japaneast/providers/Microsoft.ApiManagement/service/aigw-ketana-ext-japaneast/apis/apps-rag-simple/operations/search_api_search_post"
+      }
+    ],
+    "protocols": [
+      "https"
+    ],
+    "path": "simpe-rag",
+    "type": "mcp",
+    "subscriptionRequired": false
+  }
+}
