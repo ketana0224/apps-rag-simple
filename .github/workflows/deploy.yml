@@ -26,8 +26,12 @@ jobs:
       - name: Syntax check
         run: python -m compileall app
 
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v3
         with:
           app-name: apps-ketana-ext-rag-simple
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
